@@ -12,7 +12,7 @@ commit_website_files() {
 }
 
 upload_files() {
-  git push --set-upstream origin master
+  git push --set-upstream origin/master master
 }
 
 setup_git
