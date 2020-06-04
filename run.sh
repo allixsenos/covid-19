@@ -1,3 +1,3 @@
 #!/bin/bash
-./refresh-data.sh
-./upload.sh
+./support/refresh-data.sh
+./support/upload.sh
