@@ -1,1 +1,4 @@
-script: run.sh
+install:
+  - apt-get install httpie jq
+
+script: ./run.sh
