@@ -1,4 +1,4 @@
-install:
-  - apt-get install httpie jq
+before_install:
+  - sudo apt-get -y install httpie jq
 
 script: ./run.sh
