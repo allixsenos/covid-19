@@ -5,5 +5,3 @@ This repo serves as the datasource for my [COVID-19 in Croatia](https://bit.ly/l
 It rebuilds daily from [official data published by the Croatian government](https://www.koronavirus.hr/podaci/otvoreni-strojno-citljivi-podaci/526).
 
 Should I have more time and the COVID-19 nonsense continue further, I might expand this approach to other countries, and my dashboard to support switching between them. Maybe..
-
-// trigger build
