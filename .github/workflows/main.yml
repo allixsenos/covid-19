@@ -1,0 +1,37 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run.
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # Run on push to any branch for testing
+  push:
+  # Run every hour
+  schedule:
+   - cron: "0 * * * *"
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Init new data file
+        run: cp support/header.csv data/croatia.csv
+
+      - name: Fetch & transform data
+        run: curl "https://www.koronavirus.hr/json/?action=podaci" | jq -r '. | map([(.Datum|split(" ")[0]), (.SlucajeviHrvatska|tostring), (.IzlijeceniHrvatska|tostring), (.UmrliHrvatska|tostring)] | join(",")) | join("\n")' | tac | awk '{print ++a "," $0}' | tac >> data/croatia.csv
+
+      - name: Push changes back
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_author: GitHub Actions <actions@github.com>
