@@ -1,6 +1,0 @@
-language: minimal
-
-before_install:
-  - sudo apt-get -y install httpie jq
-
-script: ./run.sh
