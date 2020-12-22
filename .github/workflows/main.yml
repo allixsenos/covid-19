@@ -29,8 +29,9 @@ jobs:
 
       - name: Fetch latest data from koronavirus.hr
         uses: swinton/httpie.action@master
-        args:
-          - https://www.koronavirus.hr/json/?action=podaci
+        with:
+          args:
+            - https://www.koronavirus.hr/json/?action=podaci
 
       - name: Transform data
         run: cat $HOME/$GITHUB_ACTION.response.body | jq -r '. | map([(.Datum|split(" ")[0]), (.SlucajeviHrvatska|tostring), (.IzlijeceniHrvatska|tostring), (.UmrliHrvatska|tostring)] | join(",")) | join("\n")' | tac | awk '{print ++a "," $0}' | tac >> data/croatia.csv
