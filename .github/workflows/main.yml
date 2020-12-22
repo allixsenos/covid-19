@@ -27,14 +27,8 @@ jobs:
       - name: Init new data file
         run: cp support/header.csv data/croatia.csv
 
-      - name: Fetch latest data from koronavirus.hr
-        uses: swinton/httpie.action@master
-        with:
-          args:
-            - https://www.koronavirus.hr/json/?action=podaci
-
-      - name: Transform data
-        run: cat $HOME/$GITHUB_ACTION.response.body | jq -r '. | map([(.Datum|split(" ")[0]), (.SlucajeviHrvatska|tostring), (.IzlijeceniHrvatska|tostring), (.UmrliHrvatska|tostring)] | join(",")) | join("\n")' | tac | awk '{print ++a "," $0}' | tac >> data/croatia.csv
+      - name: Fetch & transform data
+        run: curl "https://www.koronavirus.hr/json/?action=podaci" | jq -r '. | map([(.Datum|split(" ")[0]), (.SlucajeviHrvatska|tostring), (.IzlijeceniHrvatska|tostring), (.UmrliHrvatska|tostring)] | join(",")) | join("\n")' | tac | awk '{print ++a "," $0}' | tac >> data/croatia.csv
 
       - name: Push changes back
         uses: stefanzweifel/git-auto-commit-action@v4
