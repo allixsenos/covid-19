@@ -25,11 +25,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Init new data file
-        run: cp support/header.csv data/croatia.csv
-
       - name: Fetch & transform data
-        run: curl "https://www.koronavirus.hr/json/?action=podaci" | jq -r '. | map([(.Datum|split(" ")[0]), (.SlucajeviHrvatska|tostring), (.IzlijeceniHrvatska|tostring), (.UmrliHrvatska|tostring)] | join(",")) | join("\n")' | tac | awk '{print ++a "," $0}' | tac >> data/croatia.csv
+        run: ./run.sh
 
       - name: Push changes back
         uses: stefanzweifel/git-auto-commit-action@v4
